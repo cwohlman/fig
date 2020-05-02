@@ -1,5 +1,5 @@
-export default function createFig(params: Configuration): Fig {
-  return new Fig(params);
+export default function createFig(params: Configuration): FigServer {
+  return new FigServer(params);
 }
 
 export type Record = {
@@ -35,7 +35,7 @@ export type Store = {
   insert(messages: Record[]): void;
 };
 
-export class Fig {
+export class FigServer {
   constructor({ store, trustedKeys, middleware }: Configuration) { 
     this.store = store;
     this.trustedKeys = trustedKeys;
