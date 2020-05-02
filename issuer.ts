@@ -1,7 +1,7 @@
 import { PublicKey } from "./server";
 
 export default function createIssuer(config: IssuerConfiguration) {
-  return new FigClient(config);
+  return new FigIssuer(config);
 }
 
 export type IssuerConfiguration = {
@@ -23,7 +23,7 @@ export type SpecialMessage =
   | { 'fig:key': string }
   ;
 
-export class FigClient {
+export class FigIssuer {
   constructor(
     private configuration: IssuerConfiguration
   ) {}
