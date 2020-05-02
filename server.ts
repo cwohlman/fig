@@ -2,7 +2,7 @@ export default function createFig(params: Configuration): Fig {
   return new Fig(params);
 }
 
-export type Message = {
+export type Record = {
   token: string,
   id: string,
   acceptedAt: Date,
@@ -17,8 +17,8 @@ export type PublicKey = {
   id: string,
 };
 export type Middleware = (
-  record: Message
-) => Message | null
+  record: Record
+) => Record | null
 
 export type Configuration = {
   store: Store
@@ -32,9 +32,9 @@ export type Query = {
   keys: true
 };
 export type Store = {
-  getById(id: string): Message | null;
-  query(query: Query): Message[];
-  insert(messages: Message[]): void;
+  getById(id: string): Record | null;
+  query(query: Query): Record[];
+  insert(messages: Record[]): void;
 };
 
 export class Fig {
@@ -48,10 +48,10 @@ export class Fig {
   trustedKeys: PublicKey[];
   middleware: Middleware[];
 
-  getById(id: string): Message | null {
+  getById(id: string): Record | null {
     return this.store.getById(id);
   }
-  query(query: Query): Message[] {
+  query(query: Query): Record[] {
     return this.store.query(query);
   }
 
@@ -60,26 +60,27 @@ export class Fig {
       tokens.map(token => this.validate(token)).filter(a => a)
     )
   }
-  validate(token: string): Message | null {
+  validate(token: string): Record | null {
     const id = getIdFromToken(token);
     if (! id) {
       return null;
     }
-    let result: Message = { id, token, parsed: {}, metadata: {}, acceptedAt: new Date() };
+    let result: Record = { id, token, parsed: {}, metadata: {}, acceptedAt: new Date() };
     for (const middleware of this.middleware) {
       result = middleware(result);
       if (! result) {
         return null;
       }
     }
-    return result as Message;
+    return result as Record;
   }
-  insert(messages: Message[]) {
+  insert(messages: Record[]) {
     return this.store.insert(messages);
   }
 
   express() {
     return (req, res) => {
+      // TODO: cors should be open to allow browsers to talk to the server
       throw new Error('Not implemented');
     }
   }
@@ -89,6 +90,6 @@ export function getIdFromToken(token: string): string {
   throw new Error('Not implemented');
 }
 
-export function createKeyMiddleware(getTrustedKeys: () => PublicKey[]) {
+export function createKeyMiddleware(getTrustedKeys: () => PublicKey[]): Middleware {
   throw new Error('Not implemented')
 }
