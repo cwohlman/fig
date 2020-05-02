@@ -1,0 +1,1 @@
+// TODO: annotates messages to mark messages as muted if they are part of a muted thread

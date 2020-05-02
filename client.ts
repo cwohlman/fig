@@ -21,7 +21,7 @@ export class FigClient {
   subscriptions: string[];
 
   refresh() {
-    // Should fetch new mesages from each host in the subscriptions list
+    // Should fetch new mesages from each host in the subscriptions list and add them to the store
     throw new Error("Not implemented")
   }
 }

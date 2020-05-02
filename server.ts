@@ -28,8 +28,6 @@ export type Configuration = {
 export type Query = {
   limit?: number,
   after?: string,
-} | {
-  keys: true
 };
 export type Store = {
   getById(id: string): Record | null;
@@ -53,6 +51,9 @@ export class Fig {
   }
   query(query: Query): Record[] {
     return this.store.query(query);
+  }
+  keys(): PublicKey[] {
+    return this.trustedKeys;
   }
 
   accept(tokens: string[]) {
