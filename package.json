@@ -2,7 +2,7 @@
   "name": "fig",
   "version": "0.0.1",
   "description": "Distributed social networking protocol and reference implementation",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/cwohlman/fig",
   "author": "Joshua Ohlman <codewriterohs@gmail.com>",
   "license": "MIT"
