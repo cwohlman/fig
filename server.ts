@@ -29,10 +29,12 @@ export type Query = {
   limit?: number,
   after?: string,
 };
+
+// TODO: support async store
 export type Store = {
   getById(id: string): Record | null;
   query(query: Query): Record[];
-  insert(messages: Record[]): void;
+  insert(message: Record): void;
 };
 
 export class FigServer {
@@ -57,9 +59,17 @@ export class FigServer {
   }
 
   accept(tokens: string[]) {
-    this.insert(
-      tokens.map(token => this.validate(token)).filter(a => a)
-    )
+    tokens.forEach(token => {
+      const id = getIdFromToken(token);
+      if (this.getById(id)) {
+        // Token is already processed
+        return;
+      }
+      const validatedToken = this.validate(token);
+      if (validatedToken) {
+        this.insert(validatedToken);
+      }
+    })
   }
   validate(token: string): Record | null {
     const id = getIdFromToken(token);
@@ -75,8 +85,8 @@ export class FigServer {
     }
     return result as Record;
   }
-  insert(messages: Record[]) {
-    return this.store.insert(messages);
+  insert(message: Record) {
+    return this.store.insert(message);
   }
 
   express() {

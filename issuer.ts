@@ -1,4 +1,5 @@
 import { PublicKey } from "./server";
+import { FigHost } from "./feed";
 
 export default function createIssuer(config: IssuerConfiguration) {
   return new FigIssuer(config);
@@ -6,7 +7,7 @@ export default function createIssuer(config: IssuerConfiguration) {
 
 export type IssuerConfiguration = {
   signingKey: SecretKey
-  issuer: string
+  issuer: FigHost
 }
 export type SecretKey = {
   secret_key: string
