@@ -29,8 +29,8 @@ export default function createClient(browser: Browser, host: FigHost, middleware
       browser.localStorage.setItem(tokensLocalstorageKey, JSON.stringify(tokens));
     },
   }
-  const tokens = tokenStoreBacking.load();
-  const tokenStore: Store = {
+  let tokens = tokenStoreBacking.load();
+  const tokenStore: LocalStore = {
     getById(id: string) {
       return tokens.find(t => t.id == id) || null;
     },
@@ -47,6 +47,10 @@ export default function createClient(browser: Browser, host: FigHost, middleware
       tokens.push(record);
       setTimeout(() => tokenStoreBacking.save(tokens), 0);
     },
+    reset() {
+      tokens = [];
+      setTimeout(() => tokenStoreBacking.save(tokens), 0);
+    }
   };
   return new Client({
     tokenStore,
@@ -78,8 +82,10 @@ export type ClientConfig = {
   publicKey: PublicKey,
 }
 
+export type LocalStore = Store & { reset(): void }
+
 export type ClientParams = {
-  tokenStore: Store,
+  tokenStore: Store | LocalStore,
   configurationStore: ConfigStore,
   issuer: FigHost,
   middlewares: Middleware[],
@@ -91,13 +97,7 @@ export class Client {
     this.params = params;
     this.config = params.configurationStore.getConfiguration();
     if (! this.config) {
-      const [publicKey, secretKey] = FigIssuer.createKey();
-      this.config = {
-        subscriptions: [this.params.issuer],
-        signingKey: secretKey,
-        publicKey: publicKey,
-      }
-      this.params.configurationStore.setConfiguration(this.config);
+      this.initializeConfig();
     }
     this.initializeFeed();
     this.initializeIssuer();
@@ -108,10 +108,32 @@ export class Client {
   config: ClientConfig;
   params: ClientParams;
 
+  private initializeConfig() {
+    const [publicKey, secretKey] = FigIssuer.createKey();
+    this.config = {
+      subscriptions: [this.params.issuer],
+      signingKey: secretKey,
+      publicKey: publicKey,
+    };
+    this.params.configurationStore.setConfiguration(this.config);
+  }
+
   subscribe(host: FigHost) {
     this.config.subscriptions = this.config.subscriptions.concat(host);
     this.params.configurationStore.setConfiguration(this.config);
     this.initializeFeed();
+  }
+
+  post(messageParts: Message[]) {
+    const token = this.issuer.signMessage(messageParts);
+    this.feed.accept([token]);
+  }
+
+  reset() {
+    this.initializeConfig();
+    if ('reset' in this.params.tokenStore) {
+      this.params.tokenStore.reset();
+    }
   }
 
   initializeFeed() {

@@ -29,7 +29,7 @@ export class FigIssuer {
     private configuration: IssuerConfiguration
   ) {}
 
-  signMessage(messageParts: Message[]) {
+  signMessage(messageParts: Message[]): string {
     throw new Error("Not implemented")
   }
 
