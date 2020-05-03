@@ -97,12 +97,14 @@ export type ClientParams = {
 export class Client {
   constructor(params: ClientParams) {
     this.params = params;
-    this.config = params.configurationStore.getConfiguration();
-    if (! this.config) {
-      this.initializeConfig();
+    const config = params.configurationStore.getConfiguration();
+    if (config) {
+      this.config = config;
+    } else {
+      this.config = this.initializeConfig();
     }
-    this.initializeFeed();
-    this.initializeIssuer();
+    this.feed = this.initializeFeed();
+    this.issuer = this.initializeIssuer();
   }
 
   feed: FigFeed;
@@ -118,6 +120,7 @@ export class Client {
       publicKey: publicKey,
     };
     this.params.configurationStore.setConfiguration(this.config);
+    return this.config;
   }
 
   subscribe(host: FigHost) {
@@ -139,7 +142,7 @@ export class Client {
   }
 
   initializeFeed() {
-    this.feed = new FigFeed({
+    return this.feed = new FigFeed({
       store: this.params.tokenStore,
       subscriptions: this.config.subscriptions,
       trustedKeys: [this.config.publicKey],
@@ -148,7 +151,7 @@ export class Client {
     });
   }
   initializeIssuer() {
-    this.issuer = new FigIssuer({
+    return this.issuer = new FigIssuer({
       signingKey: this.config.signingKey,
       issuer: this.params.issuer,
     });

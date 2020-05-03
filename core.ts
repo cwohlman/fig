@@ -76,7 +76,7 @@ export class Fig {
     if (! id) {
       return null;
     }
-    let result: Record = { id, token, parsed: {}, metadata: {}, acceptedAt: new Date() };
+    let result: Record | null = { id, token, parsed: {}, metadata: {}, acceptedAt: new Date() };
     for (const middleware of this.middleware) {
       result = middleware(result);
       if (! result) {

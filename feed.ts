@@ -24,7 +24,8 @@ export class FigFeed extends Fig {
   feed(): Record[] {
     const items = this.store.query({});
 
-    return items.map(result => {
+    return items.map(item => {
+      let result: Record | null = item;
       for (const middleware of this.middleware) {
         result = middleware(result);
         if (! result) {
