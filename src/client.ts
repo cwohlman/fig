@@ -54,7 +54,7 @@ export default function createClient(browser: Browser, host: FigHost, middleware
       setTimeout(() => tokenStoreBacking.save(tokens), 0);
     }
   };
-  return new Client({
+  return new FigClient({
     tokenStore,
     configurationStore,
     issuer: host,
@@ -94,7 +94,7 @@ export type ClientParams = {
   feedMiddlewares: Middleware[],
 }
 
-export class Client {
+export class FigClient {
   constructor(params: ClientParams) {
     this.params = params;
     const config = params.configurationStore.getConfiguration();

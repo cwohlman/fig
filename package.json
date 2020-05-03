@@ -10,7 +10,11 @@
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.1",
     "jest": "^25.5.4",
     "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "test": "tsc && jest"
   }
 }
