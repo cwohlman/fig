@@ -1,4 +1,4 @@
-import { Store, Middleware, Configuration, Fig, Record } from "./core";
+import { Store, Middleware, Configuration, Fig } from "./core";
 import { Message } from "./issuer";
 
 export default function createFeed(configuration: FeedConfiguration) {
