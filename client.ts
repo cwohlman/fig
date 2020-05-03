@@ -2,6 +2,8 @@ import { FigHost, FigFeed } from "./feed";
 import { Store, Middleware, PublicKey, Record } from "./core";
 import { SecretKey, FigIssuer, Message } from "./issuer";
 
+// TODO: default middleware should verify keys
+
 export default function createClient(browser: Browser, host: FigHost, middlewares: Middleware[], feedMiddlewares: Middleware[]) {
   const configurationLocalstorageKey = 'fig.configuration';
   const configurationStore: ConfigStore = {

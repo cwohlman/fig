@@ -41,7 +41,7 @@ export class Fig {
   constructor({ store, trustedKeys, middleware }: Configuration) { 
     this.store = store;
     this.trustedKeys = trustedKeys;
-    this.middleware = [createKeyMiddleware(() => this.trustedKeys)].concat(middleware);
+    this.middleware = middleware;
   }
 
   store: Store;
@@ -91,9 +91,9 @@ export class Fig {
 }
 
 export function getIdFromToken(token: string): string {
-  throw new Error('Not implemented');
-}
-
-export function createKeyMiddleware(getTrustedKeys: () => PublicKey[]): Middleware {
-  throw new Error('Not implemented')
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    throw new Error('Invalid token');
+  }
+  return parts[2];
 }
