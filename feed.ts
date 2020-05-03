@@ -1,4 +1,4 @@
-import { Store, Middleware, Configuration, FigServer, Record } from "./server";
+import { Store, Middleware, Configuration, Fig, Record } from "./core";
 import { Message } from "./issuer";
 
 export default function createFeed(configuration: FeedConfiguration) {
@@ -11,7 +11,7 @@ export type FeedConfiguration = Configuration & {
 }
 export type FigHost = string;
 
-export class FigFeed extends FigServer {
+export class FigFeed extends Fig {
   constructor(
     configuration: FeedConfiguration
   ) {

@@ -1,4 +1,4 @@
-import { PublicKey } from "./server";
+import { PublicKey } from "./core";
 import { FigHost } from "./feed";
 
 export default function createIssuer(config: IssuerConfiguration) {
