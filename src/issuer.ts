@@ -36,4 +36,8 @@ export class FigIssuer {
   static createKey(): [PublicKey, SecretKey] {
     throw new Error("Not implemented")
   }
+
+  static verifyMessage(message: string, keys: PublicKey[]): { [key: string]: any } {
+    throw new Error("Not implemented")
+  }
 }
