@@ -5,15 +5,13 @@ export default function createFeed(configuration: FeedConfiguration) {
 }
 
 export type FeedConfiguration = Configuration & {
-  subscriptions: FigHost[],
-  readMiddlewares: Middleware[],
-}
+  subscriptions: FigHost[];
+  readMiddlewares: Middleware[];
+};
 export type FigHost = string;
 
 export class FigFeed extends Fig {
-  constructor(
-    configuration: FeedConfiguration
-  ) {
+  constructor(configuration: FeedConfiguration) {
     super(configuration);
     this.subscriptions = configuration.subscriptions;
     this.readMiddlewares = configuration.readMiddlewares;
@@ -24,21 +22,23 @@ export class FigFeed extends Fig {
   feed(): Record[] {
     const items = this.store.query({});
 
-    return items.map(item => {
-      let result: Record | null = item;
-      for (const middleware of this.middleware) {
-        result = middleware(result);
-        if (! result) {
-          return null;
+    return items
+      .map((item) => {
+        let result: Record | null = item;
+        for (const middleware of this.middleware) {
+          result = middleware(result);
+          if (!result) {
+            return null;
+          }
         }
-      }
-      return result as Record;
-    }).filter(identity);
+        return result as Record;
+      })
+      .filter(identity);
   }
 
   refresh() {
-    // Should fetch new mesages from each host in the subscriptions list and add them to the store
-    throw new Error("Not implemented")
+    // Should fetch new messages from each host in the subscriptions list and add them to the store
+    throw new Error("Not implemented");
   }
 }
 
