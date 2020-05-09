@@ -1,3 +1,4 @@
 node_modules
 src/**/*.js
 cookbook/**/*.js
+example/**/*.js

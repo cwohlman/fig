@@ -1,6 +1,7 @@
 {
   "files.exclude": {
     "src/**/*.js": true,
-    "cookbook/**/*.js": true
+    "cookbook/**/*.js": true,
+    "example/**/*.js": true
   }
 }

@@ -14,12 +14,15 @@
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.5",
+    "express": "^4.17.1",
     "jest": "^25.5.4",
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "test": "tsc && jest"
+    "test": "tsc && jest",
+    "example": "tsc && node example/with-memory-store.js"
   }
 }

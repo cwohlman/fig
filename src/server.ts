@@ -37,6 +37,10 @@ export function createFigHandler(source: Fig, warn: (message: Error) => void) {
     }
 
     res.setHeader("content-type", "application/fig");
+
+    // const lastMessage = messages[messages.length - 1]
+    // res.setHeader("Link", `<?after=${lastMessage.id}>; rel="next"`)
+
     res.statusCode = 200;
     res.end(formatMessages(messages));
   }
@@ -86,7 +90,7 @@ export function parseNumberFromQueryParam(param: unknown): number | undefined {
 }
 
 export function parseIdFromQueryParam(param: unknown): string | undefined {
-  if (typeof param === "string" && param.match(/^[a-zA-Z\-_]+$/)) {
+  if (typeof param === "string" && param.match(/^[a-zA-Z0-9\-_]+$/)) {
     return param;
   }
 }
