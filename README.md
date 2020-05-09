@@ -2,7 +2,7 @@
 
 # A Work in Progress
 
-- `server.ts` Provides an express.js middleware for accepting & serving fig messages
+- `server.ts` Provides an express.js handler for accepting & serving fig messages
 - `simple-server.ts` Provides a set of default configurations for creating a fig server
 - `issuer.ts` Provides encapsulation around sigining messages & generating siging keys
 - `feed.ts` Provides a feed of messages from one or more hosts

@@ -3,7 +3,6 @@ import connect, { IncomingMessage } from "connect";
 import bodyparser from "body-parser";
 import { ServerResponse } from "http";
 
-// TODO: should return a middleware from the store
 // TODO: should verify keys
 
 export type FigRequest = IncomingMessage & {
@@ -36,7 +35,7 @@ export const defaultFigTextBodyParser = bodyparser.text({
 });
 export const defaultFigJsonBodyParser = bodyparser.json();
 
-export default function createMiddleware(
+export default function createHandler(
   source: Fig,
   warn: (message: string) => void = (message) => console.warn(message)
 ) {
